@@ -1,6 +1,9 @@
 name: tests
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - infinite-iso-size
 jobs:
   tests:
     runs-on: windows-latest

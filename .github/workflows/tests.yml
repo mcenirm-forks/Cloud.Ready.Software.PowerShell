@@ -12,6 +12,6 @@ jobs:
       - name: Run Pester tests
         shell: pwsh
         run: |
-          Install-Module -Name Pester -RequiredVersion 3.4.0 -Confirm:$false -Force
+          Install-Module -Name Pester -RequiredVersion 3.4.0 -Confirm:$false -Force -SkipPublisherCheck
           Import-Module Pester -Passthru
           Invoke-Pester

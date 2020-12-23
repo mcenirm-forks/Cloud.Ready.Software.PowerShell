@@ -9,8 +9,16 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run Pester tests
+      - uses: zyborg/pester-tests-report@v1
+        name: Run tests
+        id: tests
+        with:
+          report_name: tests
+          report_title: Tests
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test results
         shell: pwsh
         run: |
-          Import-Module Pester -Passthru
-          Invoke-Pester
+          Write-Output 'Total Tests Executed...:  ${{ steps.tests.outputs.total_count }}'
+          Write-Output 'Total Tests PASSED.....:  ${{ steps.tests.outputs.passed_count }}'
+          Write-Output 'Total Tests FAILED.....:  ${{ steps.tests.outputs.failed_count }}'

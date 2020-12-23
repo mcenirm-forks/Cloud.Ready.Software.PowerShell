@@ -17,7 +17,7 @@ jobs:
           report_title: Tests
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Test results
-        shell: pwsh
+        shell: powershell
         run: |
           Write-Output 'Total Tests Executed...:  ${{ steps.tests.outputs.total_count }}'
           Write-Output 'Total Tests PASSED.....:  ${{ steps.tests.outputs.passed_count }}'

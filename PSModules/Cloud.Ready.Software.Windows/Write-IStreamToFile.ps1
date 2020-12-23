@@ -1,5 +1,6 @@
-﻿function Write-IStreamToFile([__ComObject] $istream, [string] $fileName)
-{
+﻿#Requires -Version 5.1
+
+function Write-IStreamToFile([__ComObject] $istream, [string] $fileName) {
 	# NOTE: We cannot use [System.Runtime.InteropServices.ComTypes.IStream],
 	# since PowerShell apparently cannot convert an IStream COM object to this
 	# Powershell type.  (See http://stackoverflow.com/a/9037299/223837 for
@@ -9,14 +10,8 @@
 	# That is the reason why method FileUtil.WriteIStreamToFile(), below,
 	# takes an object, and casts it to an IStream, instead of directly
 	# taking an IStream inputStream argument.
-
  
-	$cp = New-Object CodeDom.Compiler.CompilerParameters             
-	$cp.CompilerOptions = "/unsafe"
-	$cp.WarningLevel = 4
-	$cp.TreatWarningsAsErrors = $true
-
-	Add-Type -CompilerParameters $cp -TypeDefinition @"
+	$typedefinition = @"
 		using System;
 		using System.IO;
 		using System.Runtime.InteropServices.ComTypes;
@@ -51,7 +46,16 @@
 
 		}
 "@
- 
+
+	if ($PSVersionTable.PSVersion.Major -gt 5) {
+		Add-Type -CompilerOptions '/unsafe' -TypeDefinition $typedefinition
+	}
+	else {
+		$cp = New-Object CodeDom.Compiler.CompilerParameters             
+		$cp.CompilerOptions = "/unsafe"
+		$cp.WarningLevel = 4
+		$cp.TreatWarningsAsErrors = $true
+		Add-Type -CompilerParameters $cp -TypeDefinition $typedefinition
+	}
 	[My.FileUtil]::WriteIStreamToFile($istream, $fileName)
 }
- 

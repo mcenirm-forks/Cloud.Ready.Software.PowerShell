@@ -1,14 +1,14 @@
-﻿Function New-ISOFileFromFolder{
+﻿Function New-ISOFileFromFolder {
     <#
         .SYNOPSIS
         Creates an ISO file from a filepath
     #>
     param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [String]$FilePath,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [String]$Name,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [String]$ResultFullFileName
     )
     write-host "Creating ISO $Name" -ForegroundColor Green  
@@ -19,10 +19,10 @@
 
     $fsi.FileSystemsToCreate = 7
     $fsi.VolumeName = $Name
-    $fsi.FreeMediaBlocks = 1000000  #default 332800
+    $fsi.FreeMediaBlocks = 0  #default 332800
 
     
-    $fsi.Root.AddTreeWithNamedStreams($FilePath,$false)
+    $fsi.Root.AddTreeWithNamedStreams($FilePath, $false)
 
 
     

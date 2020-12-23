@@ -16,10 +16,10 @@ Describe 'New-ISOFileFromFolder' {
         for ($i = 0; $i -lt $repeat2; $i++) {
             Add-Content -Value $data -Encoding ascii -LiteralPath $filepath -NoNewline
         }
-        (Get-ChildItem -LiteralPath $filepath).Length | Should Be $expectedinputlength
+        (Get-ChildItem -LiteralPath $filepath).Length | Should -Be $expectedinputlength
         {
             New-ISOFileFromFolder -FilePath $filepath -Name 'megablock' -ResultFullFileName $resultfullfilepath
-        } | Should Not Throw
-        (Get-ChildItem -LiteralPath $resultfullfilepath).Length | Should Be $expectedoutputlength
+        } | Should -Not -Throw
+        (Get-ChildItem -LiteralPath $resultfullfilepath).Length | Should -Be $expectedoutputlength
     }
 }

@@ -1,0 +1,13 @@
+name: tests
+on:
+  workflow_dispatch:
+jobs:
+  tests:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Pester tests
+        shell: pwsh
+        run: |
+          Import-Module Pester -Passthru
+          Invoke-Pester
